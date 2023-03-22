@@ -1,0 +1,13 @@
+#default config file
+---
+server:
+    name: xxxx
+    host: xxxx
+    port: xxxx
+databases:
+    database: xxxx
+    host: xxxx
+    port: xxxx
+    username: xxxx
+    password: xxxx
+...
