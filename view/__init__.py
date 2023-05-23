@@ -5,6 +5,7 @@ view
 '''
 from flask import Flask
 from view.toolcenter import toolcenter
+from flask.ext.login import LoginManager
 
 def create_app():
     app = Flask(__name__)
