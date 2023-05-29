@@ -6,14 +6,12 @@ view
 from flask import Flask
 from view.toolcenter import toolcenter
 from flask.ext.login import LoginManager
+from flask_jwt_extended import JWTManager
 
 def create_app():
     app = Flask(__name__)
 
-    @app.route("/")
-    def hello_world():
-        return '<!DOCTYPE html><html><head><style>body {    background-color: #ff0000 }</style></head><body><h1 align="center">Please leave quickly</h1></body></html>'
-
+    jwt = JWTManager(app)
     app.register_blueprint(blueprint=toolcenter, url_prefix = "/tools")
 
     return app

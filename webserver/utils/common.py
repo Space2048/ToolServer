@@ -29,4 +29,4 @@ def getConfig(name):
 
 
 def decryptionData(data):
-    pass
+    
