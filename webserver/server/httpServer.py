@@ -15,49 +15,50 @@ class HttpServerHandler(BaseHTTPRequestHandler):
         # if not self._registerConnect(self.client_address):
         #     self._default()
         #     return
-
-        dealObj = HttpServerHandler.httpMethodManagerx
-        params = {}
-        reqUrl = self.path
-        print(reqUrl)
-        if '?' in self.path:#如果带有参数
-            reqUrl = self.path.split('?',1)[0]
-            self.queryString = urllib.parse.unquote(self.path.split('?',1)[1])
-            params = urllib.parse.parse_qs(self.queryString)
-        self.url_param = params
-        request = Request(self)
-        handlerMethod = dealObj.get_method(self.command, reqUrl)
-        if not handlerMethod:
-            self._default()
-            return
-        res: Response = handlerMethod(request)
-        self.send_response(res.status_code)
-        self.send_header("Content-type",res["resType"]) #"text/html"
-        self.end_headers()
-        buf = res.res_content
-        self.wfile.write(buf.encode("utf-8"))
+        self._dispatchReq()
+        # dealObj = HttpServerHandler.httpMethodManagerx
+        # params = {}
+        # reqUrl = self.path
+        # print(reqUrl)
+        # if '?' in self.path:#如果带有参数
+        #     reqUrl = self.path.split('?',1)[0]
+        #     self.queryString = urllib.parse.unquote(self.path.split('?',1)[1])
+        #     params = urllib.parse.parse_qs(self.queryString)
+        # self.url_param = params
+        # request = Request(self)
+        # handlerMethod = dealObj.get_method(self.command, reqUrl)
+        # if not handlerMethod:
+        #     self._default()
+        #     return
+        # res: Response = handlerMethod(request)
+        # self.send_response(res.status_code)
+        # self.send_header("Content-type",res["resType"]) #"text/html"
+        # self.end_headers()
+        # buf = res.res_content
+        # self.wfile.write(buf.encode("utf-8"))
 
     def do_POST(self):
         # if not self._registerConnect(self.client_address):
         #     self._default()
         #     return
-        dealObj = HttpServerHandler.httpMethodManagerx
-        params = {}
-        reqUrl = self.path
-        self.url_param = params
-        req_datas = self.rfile.read(int(self.headers['content-length']))
-        self.req_datas = req_datas
-        request = Request(self)
-        handlerMethod = dealObj.get_method(self.command, reqUrl)
-        if not handlerMethod:
-            self._default()
-            return
-        res = handlerMethod(request)
-        self.send_response(res["resCode"])
-        self.send_header("Content-type",res["resType"]) #"text/html"
-        self.end_headers()
-        buf = res["buf"]
-        self.wfile.write(buf.encode("utf-8"))
+        # dealObj = HttpServerHandler.httpMethodManagerx
+        # params = {}
+        # reqUrl = self.path
+        # self.url_param = params
+        # req_datas = self.rfile.read(int(self.headers['content-length']))
+        # self.req_datas = req_datas
+        # request = Request(self)
+        # handlerMethod = dealObj.get_method(self.command, reqUrl)
+        # if not handlerMethod:
+        #     self._default()
+        #     return
+        # res = handlerMethod(request)
+        # self.send_response(res["resCode"])
+        # self.send_header("Content-type",res["resType"]) #"text/html"
+        # self.end_headers()
+        # buf = res["buf"]
+        # self.wfile.write(buf.encode("utf-8"))
+        self._dispatchReq()
     
     def _dispatchReq(self):
         # if not self._registerConnect(self.client_address):
@@ -72,8 +73,11 @@ class HttpServerHandler(BaseHTTPRequestHandler):
             self.queryString = urllib.parse.unquote(self.path.split('?',1)[1])
             params = urllib.parse.parse_qs(self.queryString)
         self.url_param = params
-        req_datas = self.rfile.read(int(self.headers['content-length']))
-        self.req_datas = req_datas
+        contentLength = self.headers['content-length']
+        self.req_datas = []
+        if contentLength:
+            req_datas = self.rfile.read(int())
+            self.req_datas = req_datas
         request = Request(self)
         handlerMethod = dealObj.get_method(self.command, reqUrl)
         if not handlerMethod:
@@ -81,8 +85,8 @@ class HttpServerHandler(BaseHTTPRequestHandler):
             return
         res: Response = handlerMethod(request)
         self.send_response(res.status_code)
-        for headerK in res.headerMap.keys():
-            value = res.headerMap[value]
+        for headerK in res.headers.keys():
+            value = res.headers[headerK]
             self.send_header(headerK, value)
         self.end_headers()
         buf = res.res_content

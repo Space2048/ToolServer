@@ -39,7 +39,7 @@ class Response(object):
     def res_content(self):
         return self._res_content
     
-    @res_type.setter
+    @res_content.setter
     def res_content(self, content):
         self.res_content = content
     
