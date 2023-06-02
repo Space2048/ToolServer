@@ -1,4 +1,4 @@
-from utils import singletonMeta
+from webserver.server.utils import singletonMeta
 
 class HttpRequestManagerx(metaclass=singletonMeta):
     _methodLib = {}

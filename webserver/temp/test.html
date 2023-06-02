@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <header>
+        <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    </header>
+    <body>
+        <h1>tesss</h1>
+    </body>
+</html>
+<script>
+    //alert("ces1")
+    $(document).ready(function (){
+        //alert("ces")
+        console.log("cesh");
+        var localtion = navigator.geolocation.getCurrentPosition(success, function (err){
+            const url = "http://192.168.50.91:8081/setPositionError"; 
+            const data={errdata: err.message}; 
+            console.log(err)
+            $.post(url, data, function(res, status){
+                alert(res)
+            });
+        }); 
+        function success(pos){
+            console.log("hello ts"); 
+            const url = "http://192.168.50.91:8081/setUserPosition"; 
+            const data={position: pos}; 
+            $.post(url, data, function(res, status){
+                console.log(res)
+                console.log(status)
+            });
+        }
+    })
+</script>
